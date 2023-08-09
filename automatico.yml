@@ -2,12 +2,6 @@
 - hosts: localhost
   tasks:
 
-    - name: Install git
-      apt:
-       name: git
-       state: present
-       update_cache: yes
-
     - name: eliminar repo 
       command: rm -rf ejemplo
 
@@ -19,16 +13,7 @@
     - name: Create a file
       copy:
         dest: "{{ playbook_dir }}/ejemplo/index.html"
-        content: "{{  ansible_date_time.iso8601_basic_short }}"
-
-    #- name: agregar texto
-     # command: tee -a index.html >>> "<!DOCTYPE html> <html1><head><title>Hola mundo</title></head><body><h1>Hola mundo</h1></body></html1>"
-
-    - name: agregar texto con modulo
-      replace:
-        path: "{{ playbook_dir }}/ejemplo"
-        regexp: "index.html"
-        replace: "<!DOCTYPE html> <html1><head><title>Hola mundo</title></head><body><h1>Hola mundo</h1></body></html1>"
+        content: "<!DOCTYPE html> <html1><head><title>Hola mundo</title></head><body><h1>Hola mundo {{ ansible_date_time.iso8601_basic_short }}</h1></body></html1>"
 
     - name: agregar cambios con git
       command: git add .
@@ -38,7 +23,7 @@
     - name: Hacer git commit
       command: git commit -m "Agregar archivo"
       args:
-        chdir: "{{ playbook_dir }}/ejemplo"
+        chdir: "{{ playbook_dir }}/ejemplo" 
 
     - name: Hacer git push
       command: git push
@@ -51,8 +36,8 @@
       register: index
 
     - name: ejecutar index
-      command: firefox index.html
-      when: index.stat.exit  
+      command: firefox index.html & echo "finalizo";
+      when: index.stat.exists
 
     - name: eliminar repo final 
       command: rm -rf ejemplo
