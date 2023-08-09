@@ -1,0 +1,61 @@
+---
+- hosts: localhost
+  tasks:
+
+    - name: Install git
+      apt:
+       name: git
+       state: present
+       update_cache: yes
+
+    - name: eliminar repo 
+      command: rm -rf ejemplo
+
+    - name: Create git archive from repo
+      ansible.builtin.git:
+        repo: https://aballen77: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@github.com/aballen77/ejemplo.git
+        dest: "{{ playbook_dir }}/ejemplo"
+
+    - name: Create a file
+      copy:
+        dest: "{{ playbook_dir }}/ejemplo/index.html"
+        content: "{{  ansible_date_time.iso8601_basic_short }}"
+
+    #- name: agregar texto
+     # command: tee -a index.html >>> "<!DOCTYPE html> <html1><head><title>Hola mundo</title></head><body><h1>Hola mundo</h1></body></html1>"
+
+    - name: agregar texto con modulo
+      replace:
+        path: "{{ playbook_dir }}/ejemplo"
+        regexp: "index.html"
+        replace: "<!DOCTYPE html> <html1><head><title>Hola mundo</title></head><body><h1>Hola mundo</h1></body></html1>"
+
+    - name: agregar cambios con git
+      command: git add .
+      args:
+        chdir: "{{ playbook_dir }}/ejemplo"
+
+    - name: Hacer git commit
+      command: git commit -m "Agregar archivo"
+      args:
+        chdir: "{{ playbook_dir }}/ejemplo"
+
+    - name: Hacer git push
+      command: git push
+      args:
+        chdir: "{{ playbook_dir }}/ejemplo"
+
+    - name: validar si existe archivo
+      stat: 
+         path: "{{ playbook_dir }}/ejemplo"
+      register: index
+
+    - name: ejecutar index
+      command: firefox index.html
+      when: index.stat.exit  
+
+    - name: eliminar repo final 
+      command: rm -rf ejemplo
+
+    - name: eliminar carptetas
+      command: dpkg --configure -a
