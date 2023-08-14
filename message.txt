@@ -1,1 +1,10 @@
 El número es mayor que 10.
+
+export ARM_CLIENT_ID="18d7d5c6-14a2-4434-93d4-6449bd037752"
+
+export ARM_CLIENT_SECRET="sIP8Q~dJG2SS-nULV4SXFHM_.JCWCvppMdS-wala"
+
+export ARM_SUBSCRIPTION_ID="0bea0a37-89cb-43fb-976f-0d8a3d8b1e4b"
+
+export ARM_TENANT_ID="9dbc76ea-fb25-4b07-8f07-5dc315999b76"
+export VAR_01=asdasd
