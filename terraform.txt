@@ -1,0 +1,28 @@
+
+resource "null_resource" "connect_aks" {
+    triggers = {
+        cluster_created = azurerm_kubernetes_cluster.k8s.name
+    }  
+    provisioner "local-exec" {
+        command = "az aks get-credentials --resource-group ${var.prefix}-resource --name ${var.prefix}-k8s"
+    }
+    provisioner "local-exec" {
+        command = "kubectl config use-context ${var.prefix}-k8s && kubectl apply -f ${var.jenkins}"
+    }
+    provisioner "local-exec" {
+        command = "kubectl apply -f ${var.sonar}"
+    }
+    provisioner "local-exec" {
+        command = "kubectl apply -f ${var.prome}"
+    }
+    provisioner "local-exec" {
+        command = "kubectl apply -f ${var.grafana}"
+    }
+    provisioner "local-exec" {              #   Ejecución de script para instalación del Ingress nginx por
+        command = "./${var.script1}"        #   medio de helm
+    }
+    provisioner "local-exec" {              #   Ejecución de script para la creación de secretos en el 
+        command = "./${var.script2}"        #   clúster
+    }
+}
+roles/terraform_aks_template/files/test/azure-aks-tf/manifest
