@@ -25,3 +25,4 @@ resource "null_resource" "connect_aks" {
         command = "./${var.script2}"        #   clúster
     }
 }
+roles/terraform_aks_template/files/test/azure-aks-tf/manifest
