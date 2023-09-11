@@ -1,11 +1,14 @@
-resource "null_resource" "apply_kubectl_manifest" {
+resource "kubectl_manifest" "micro" {
+  yaml_body = file("manifest/deploy.yaml")
   provisioner "local-exec" {
-    command = "kubectl apply -f manifest/random.yaml"
+    command = "sleep 30"
   }
   depends_on = [time_sleep.wait_30_seconds]
-} 
+}
 
-resource "kubectl_manifest" "micro" {
-  depends_on = [null_resource.apply_kubectl_manifest]
-  yaml_body = file("manifest/random.yaml")
+resource "null_resource" "kubectl_logs" {
+  depends_on = [kubectl_manifest.micro]
+  provisioner "local-exec" {
+    command = "kubectl logs -l app=docker-log-generator --follow"
+  }
 }
