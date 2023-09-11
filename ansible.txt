@@ -1,14 +1,13 @@
-resource "kubectl_manifest" "micro" {
-  yaml_body = file("manifest/deploy.yaml")
-  provisioner "local-exec" {
-    command = "sleep 30"
-  }
-  depends_on = [time_sleep.wait_30_seconds]
-}
 
-resource "null_resource" "kubectl_logs" {
-  depends_on = [kubectl_manifest.micro]
-  provisioner "local-exec" {
-    command = "kubectl logs -l app=docker-log-generator --follow"
+resource "kubernetes_pod" "test" {
+  metadata {
+    name = "docker-log-generator"
+  }
+
+  spec {
+    container {
+      image = "coffeeapplied/dockerloggenerator:1.0.2"
+      name  = "docker-log-generator"
+    }
   }
 }
