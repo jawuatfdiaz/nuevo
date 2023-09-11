@@ -1,27 +1,11 @@
----
-- name: Ejecutar comandos de kubectl
-  hosts: localhost  # Puedes ajustar los hosts según tus necesidades
-  tasks:
-    - name: Crear el namespace "ms"
-      command: kubectl create namespace ms
-      register: create_namespace
-      ignore_errors: yes  # Ignorar si el namespace ya existe
+resource "null_resource" "apply_kubectl_manifest" {
+  provisioner "local-exec" {
+    command = "kubectl apply -f manifest/random.yaml"
+  }
+  depends_on = [time_sleep.wait_30_seconds]
+} 
 
-    - name: Cambiar al directorio del archivo YAML
-      command: cd /ruta-completa/Proyecto_Semilleros/micro_holamundo/k8s
-      args:
-        chdir: /ruta-completa/Proyecto_Semilleros/micro_holamundo/k8s
-      when: create_namespace is succeeded  # Cambiar solo si la creación de namespace tiene éxito
-
-    - name: Aplicar el archivo YAML "deply.yml"
-      command: kubectl apply -f deply.yml -n ms
-      register: apply_deployment
-      ignore_errors: yes  # Ignorar si el archivo YAML ya se aplicó antes
-
-    - name: Actualizar la imagen del Deployment "rest"
-      command: kubectl set image deployment.v1.apps/rest rest=estefaniam/micro_holamundo:build-188 -n ms
-      register: update_rest_image
-
-    - name: Actualizar la imagen del Deployment "docker-log-generator"
-      command: kubectl set image deployment.v1.apps/docker-log-generator docker-log-generator=coffeeapplied/dockerloggenerator:1.0.2 -n ms
-      register: update_docker_log_generator_image
+resource "kubectl_manifest" "micro" {
+  depends_on = [null_resource.apply_kubectl_manifest]
+  yaml_body = file("manifest/random.yaml")
+}
