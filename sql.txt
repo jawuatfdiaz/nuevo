@@ -1,0 +1,1 @@
+sqlcmd -S prueba08-servidor.database.windows.net -d prueba08 -U Admin123 -P hola123*
