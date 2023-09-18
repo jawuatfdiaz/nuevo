@@ -1,0 +1,21 @@
+Variables Entorno Backend:
+________________________________________
+
+NOMBRE	   |     VALOR	                        |RAZON
+BASE_URL   |     https://development.belvo.com  |Url base al api de Belvo, usada para obtener la información bancaria de los usuarios
+CLAVEDB	   |     nttdata2023*!	                |Clave de usuario de ingreso a la db sqlserver
+CONEXIONDB |     openbanking-db-srv	        |Nombre del servidor donde se aloja la db
+CONEXIONDBTLS |  jdbc:sqlserver://openbanking-db-srv.database.windows.net:1433;database=openbankingv1;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30; | Tls Dirección e identificador de la Db Azure SQL server
+PASSWORD_BELVO | 7CvLa_54MCZj@C5shP-Fpz62wo@tuFrO@c8YFchHd5h*y1csDrKdccx4raeDVMu# | Contraseña para autenticación y acceso api Belvo
+USERNAME_BELVO | 30f3b1d0-69ce-4118-b929-f8b831c2a35c	| Nombre de usuario api belvo
+USUARIODB      | ob_programmatic	                | Usuario Db SQL Server
+
+
+Variables entorno Frontend:
+________________________________________
+
+NOMBRE	           VALOR	                                                                  RAZON
+authURL	           http://openbanking.eastus.azurecontainer.io:8080/openbanking/v1.0/prometeo/ | Url apuntando a un microservicio de proveedor Prometeo. Esta url actualmente no se está usando, sin embargo, aún no se quiere descartar.
+authURL2	   http://backendobbelvo.bhfhhpfdbgbkarhg.eastus.azurecontainer.io:8080/openbanking/v1.0/belvo/ | Url de la instancia de contenedor del backend spring boot.
+apiKey	           EwoDqJ9NSj9EX2BXgBekcgTNjEg6ly1djc8G1qERY91gsloi0dGSUzf8qd6CHAnq | Key para acceso y autenticación del microservicio Prometeo. Esta key no esta en uso actualmente, sin embargo, aun no se quiere descartar.
+production	   true	| Boolean usado únicamente para ejecutar una build optimizada para producción de Angular. En caso de false, la build no será optimizada. No cambia los valores de las variables anteriores.
