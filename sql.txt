@@ -1,1 +1,23 @@
-sqlcmd -S prueba08-servidor.database.windows.net -d prueba08 -U Admin123 -P hola123*
+- name: Call GitHub action
+  uri:
+    url: https://api.github.com/repos/nttdataCO-DA/ob-sb-ms-openbankingbk/actions/workflows/sandbox-open-banking.yml/dispatches
+    method: POST
+    url_username: "{{ GITHUB_USERNAME }}"
+    url_password: "{{ GITHUB_TOKEN }}"
+    force_basic_auth: true
+    status_code: [200, 201, 204]
+    headers:
+      Accept: application/vnd.github+json
+      Content-Type: application/json
+    body_format: json
+    body:
+      ref: main
+      inputs:
+        base_url: "https://development.belvo.com"
+        clavedb: "nttdata2023*!"
+        conexiondb: "openbanking-db-srv"
+        conexiondbtls: "jdbc:sqlserver://openbanking-db-srv.database.windows.net:1433;database=openbankingv1;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;"
+        password_belbo: "7CvLa_54MCZj@C5shP-Fpz62wo@tuFrO@c8YFchHd5h*y1csDrKdccx4raeDVMu#"
+        username_belbo: "30f3b1d0-69ce-4118-b929-f8b831c2a35c"
+        usuariodb: "ob_programmatic"
+*
