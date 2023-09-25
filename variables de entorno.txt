@@ -19,3 +19,5 @@ authURL	           http://openbanking.eastus.azurecontainer.io:8080/openbanking/
 authURL2	   http://backendobbelvo.bhfhhpfdbgbkarhg.eastus.azurecontainer.io:8080/openbanking/v1.0/belvo/ | Url de la instancia de contenedor del backend spring boot.
 apiKey	           EwoDqJ9NSj9EX2BXgBekcgTNjEg6ly1djc8G1qERY91gsloi0dGSUzf8qd6CHAnq | Key para acceso y autenticación del microservicio Prometeo. Esta key no esta en uso actualmente, sin embargo, aun no se quiere descartar.
 production	   true	| Boolean usado únicamente para ejecutar una build optimizada para producción de Angular. En caso de false, la build no será optimizada. No cambia los valores de las variables anteriores.
+
+dckr_pat_UMAtdU3d049lK6lkwUFr-NOFz9E token-docker
